@@ -1,0 +1,13 @@
+
+Starting, please wait...
+
+Tkinter Loaded
+Numpy Loaded
+Scipy Loaded
+Matplotlib Loaded
+pySeabreeze Loaded
+OceanOptics Spectrometer Model USB4000 Serial number: USB4J01325 Loaded
+Model from Modelo1415MS.mat, [Size: 3648]. Loaded.
+Model from Modelo1415SSR.mat, [Size: 3648]. Loaded.
+Model from Modelo1415SSH.mat, [Size: 3648]. Loaded.
+Model from MODELO AC.mat, [Size: 3648]. Loaded.

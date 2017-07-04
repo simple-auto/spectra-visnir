@@ -1,0 +1,8 @@
+Modelo10, Cal 0.88 y RMSE 0.39%, Val 0.62 y RMSE 0.66%
+presenta poco error bajo los 12 y sobre los 14.4, al medio esta la falla
+P.D. eso no asegura que sea siempre asi, con estos datos lo fue y podria serlo con otros muy similares
+Coef -45.572511
+
+Modelo7 Cal 0.89 y RMSE 0.36, Val 0.64 y RMSE 0.76%
+El error es parejo en todo el rango
+COef -37.6059
