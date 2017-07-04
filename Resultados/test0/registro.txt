@@ -1,0 +1,10 @@
+Sesion Creada. Archivos se guardaran en /home/pi/Desktop/Resultados/test0
+Referencia Blanco no.1 cargado
+Medicion no.1 realizada
+Medicion no.2 realizada
+Medicion no.3 realizada
+Medicion no.4 realizada
+Medicion no.5 realizada
+Medicion no.6 realizada
+Sesion Finalizada
+

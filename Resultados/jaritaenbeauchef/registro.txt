@@ -1,0 +1,8 @@
+Sesion Creada. Archivos se guardaran en /home/pi/Desktop/Resultados/jaritaenbeauchef
+Referencia Blanco no.1 cargado
+Medicion no.1 realizada
+Medicion no.2 realizada
+Medicion no.3 realizada
+Medicion no.4 realizada
+Sesion Finalizada
+
