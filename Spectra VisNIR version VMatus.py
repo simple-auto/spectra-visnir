@@ -50,6 +50,10 @@ else:
 	#Fijar el tiempo de integracion en el aparato: 
 	spec.integration_time_micros(int_time)
 
+	
+#Cargar Modelo de Estimacion PLS
+#TODO: importar variable de modelo y coeficiente
+
 #MODELOS DE ESTIMACION MS, SSR, SSH, AC
 
 #Importar variables de los modelos:
@@ -238,12 +242,15 @@ class Ppal:
 		y=self.medir()					#Obtener mediciones
 		self.i=self.i+1				 	#Aumentar contador
 
-                # 
+                #Normalizar Potencia (Eliminar componente continua)
+			#TODO Definir el metodo de normalizacion
 
-
-                
+                #Calcular Transmitancia
+			#TODO reemplazar calculo de absorbancia por transmitancia
 		absorbance=np.log10(self.whi/y)	                #Calcular Absorbancia
 		
+		
+		#Graficar
 		if True: #Escoger: True = Grafica solo el ultimo espectro, False = Grafica todos juntos
 			#Reiniciar Grafico
 			self.grafico.cla()		
@@ -253,9 +260,29 @@ class Ppal:
 			self.grafico.axis([400,1100,0,10000])
 			self.grafico.grid(True)
 
-		#Dibujar Nueva Curva de Absorbancia
+			#Dibujar Nueva Curva de Absorbancia
 		self.grafico.plot(x,y)
 		self.telar.draw()
+		
+		#Preprocesos
+		
+		#Downsampling
+		#TODO bajar la resolucion a 1 wavelegth, i.e., x=(200,201,202,203,...,1100)
+		
+		#Regresion LOESS
+		#TODO implementar funcion LOESS de R
+		
+		#Aplicar PLS
+		#TODO (producto punto del output de loess por modelo pls)+coef_pls
+		
+		
+		#Decision
+		#TODO signo del resultado
+		
+		
+		#Desplegar el mensaje
+		#TODO cambiar label
+		
 		
 		#Estimar y mostrar resultados de MS, SSR, SSH & AC (Solo seleccionados)
 
