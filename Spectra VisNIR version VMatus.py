@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+#Version para python 2.7
 #-----------Imports
 import os
 print "Spectra Vis/NIR v17.04\n\nIniciando Componentes...\n"
