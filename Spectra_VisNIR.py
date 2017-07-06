@@ -56,8 +56,8 @@ else:
 	spec.integration_time_micros(int_time)
 
 #FILE I/O
-input_path='/home/pi/Desktop/App/'
-output_path='/home/pi/Desktop/Resultados/'
+input_path='/home/pi/Desktop/spectra-visnir/App/'
+output_path='/home/pi/Desktop/spectra-visnir/Resultados/'
 
 #MODELO DE ESTIMACION PLS MANZANAS
 #Coeficiente
