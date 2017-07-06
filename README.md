@@ -5,6 +5,6 @@ Desarrollado por
 ## Lab. Poscosecha UC:
 Álvaro Jara
 
-## Simple Auto:
+## simple auto:
 Vicente Matus,
 Jaime Aranda
