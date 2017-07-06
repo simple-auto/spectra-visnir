@@ -6,5 +6,5 @@ Desarrollado por
 Álvaro Jara
 
 ## Simple Auto:
-Vicente Matus
+Vicente Matus,
 Jaime Aranda
