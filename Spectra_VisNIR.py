@@ -126,7 +126,7 @@ class Ppal:
 		self.grafico = self.figura.add_subplot(111)
 		self.grafico.set_title('Espectro de Transmitancia')
 		self.grafico.set_xlabel('Longitud de Onda ($\lambda$) [nm]')
-		self.grafico.set_ylabel('Intensidad [counts]')
+		self.grafico.set_ylabel('Transmitancia [%]')
 		self.grafico.axis([400,1100,0,100])
 		self.grafico.grid(True)
 
@@ -219,7 +219,7 @@ class Ppal:
                 #Calcular Transmitancia
 		
 		#absorbance=np.log10(self.whi/y)	                #Calcular Absorbancia
-		transmitance=np.true_divide(20*y,self.whi)		#Calcular Transmitancia (OJO ESTA AMPLIFICADA)
+		transmitance=np.true_divide(100*y,self.whi)		#Calcular Transmitancia (OJO ESTA AMPLIFICADA)
 		
 				###---PREPROCESOS PLS---###
 		
@@ -267,7 +267,7 @@ class Ppal:
 			self.grafico.set_title('Espectro de Intensidad')
 			self.grafico.set_xlabel('Longitud de Onda ($\lambda$) [nm]')
 			#self.grafico.set_ylabel('Intensidad [counts]')
-			self.grafico.set_ylabel('Ti [%]')
+			self.grafico.set_ylabel('Transmitancia [%]')
 			self.grafico.axis([400,1100,0,100])
 			self.grafico.grid(True)
 
@@ -336,8 +336,8 @@ class Ppal:
 		self.grafico.cla()		
 		self.grafico.set_title('Espectro de Intensidad')
 		self.grafico.set_xlabel('Longitud de Onda ($\lambda$) [nm]')
-		self.grafico.set_ylabel('Intensidad [counts]')
-		self.grafico.axis([400,1100,0,10000])
+		self.grafico.set_ylabel('Transmitancia [%]')
+		self.grafico.axis([400,1100,0,100])
 		self.grafico.grid(True)
 		self.telar.draw()
 		
