@@ -237,12 +237,12 @@ class Ppal:
 		Prom[0]=values[0]
 		j=1
 		for i in range(1,wv_int.size):
-		    if wv_int[i]==wv_int[i-1]:
-			Prom[-1]=np.add(Prom[-1]*j,values[i])/(j+1)
-			j=j+1
-		    else:
-			j=1
-			Prom=np.append(Prom,values[i])
+			if wv_int[i]==wv_int[i-1]:
+				Prom[-1]=np.add(Prom[-1]*j,values[i])/(j+1)
+				j=j+1
+			else:
+				j=1
+				Prom=np.append(Prom,values[i])
 		wv_int=np.unique(wv_int)
 
 		
