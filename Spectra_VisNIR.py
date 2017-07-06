@@ -221,23 +221,7 @@ class Ppal:
 		#absorbance=np.log10(self.whi/y)	                #Calcular Absorbancia
 		transmitance=np.true_divide(20*y,self.whi)		#Calcular Transmitancia (OJO ESTA AMPLIFICADA)
 		
-			
-		#Graficar
-		if True: #Escoger: True = Grafica solo el ultimo espectro, False = Grafica todos juntos
-			#Reiniciar Grafico
-			self.grafico.cla()		
-			self.grafico.set_title('Espectro de Intensidad')
-			self.grafico.set_xlabel('Longitud de Onda ($\lambda$) [nm]')
-			#self.grafico.set_ylabel('Intensidad [counts]')
-			self.grafico.set_ylabel('Ti [%]')
-			self.grafico.axis([400,1100,0,100])
-			self.grafico.grid(True)
-
-		#Dibujar Curva
-		self.grafico.plot(x,transmitance)
-		self.telar.draw()
-		
-		###---PREPROCESOS PLS---###
+				###---PREPROCESOS PLS---###
 		
 		#DOWNSAMPLING
 		#TODO (DONE) bajar la resolucion a 1 wavelegth, i.e., x=(200,201,202,203,...,1100)
@@ -275,7 +259,21 @@ class Ppal:
 		
 		#Desplegar el mensaje
 		#TODO cambiar label
-		
+			
+		#Graficar
+		if True: #Escoger: True = Grafica solo el ultimo espectro, False = Grafica todos juntos
+			#Reiniciar Grafico
+			self.grafico.cla()		
+			self.grafico.set_title('Espectro de Intensidad')
+			self.grafico.set_xlabel('Longitud de Onda ($\lambda$) [nm]')
+			#self.grafico.set_ylabel('Intensidad [counts]')
+			self.grafico.set_ylabel('Ti [%]')
+			self.grafico.axis([400,1100,0,100])
+			self.grafico.grid(True)
+
+		#Dibujar Curva
+		self.grafico.plot(x,transmitance)
+		self.telar.draw()
 		
 		#Estimar y mostrar resultados de MS, SSR, SSH & AC (Solo seleccionados)
 
