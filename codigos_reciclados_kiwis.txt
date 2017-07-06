@@ -1,0 +1,38 @@
+
+#MODELOS DE ESTIMACION (KIWIS): MS, SSR, SSH, AC
+
+#Importar variables de los modelos:
+#Coeficientes sin formato, escribir valor aqui:
+
+#ms_coef=14.9859557
+#ssr_coef=15.450357
+#ssh_coef=7.32951437
+#ac_coef=16.2624986989
+
+#Modelos, en formato '.mat' en la misma carpeta que este codigo,
+#escribir nombre de archivo aqui:
+
+#nombre_archivo_ms='Modelo1415MS.mat'
+#nombre_archivo_ssr='Modelo1415SSR.mat'
+#nombre_archivo_ssh='Modelo1415SSH.mat'
+#nombre_archivo_ac='MODELO AC.mat'
+
+#Rescatar el nombre de la variable (Matlab):
+#nombre_matlab_ms=(sio.whosmat(input_path+nombre_archivo_ms))[0][0]
+#nombre_matlab_ssr=(sio.whosmat(input_path+nombre_archivo_ssr))[0][0]
+#nombre_matlab_ssh=(sio.whosmat(input_path+nombre_archivo_ssh))[0][0]
+#nombre_matlab_ac=(sio.whosmat(input_path+nombre_archivo_ac))[0][0]
+
+#ms_model=sio.loadmat(input_path+nombre_archivo_ms)[nombre_matlab_ms][0]
+#print 'Model from '+nombre_archivo_ms+', [Size: '+str(ms_model.size)+']. Loaded.'
+
+#ssr_model=sio.loadmat(input_path+nombre_archivo_ssr)[nombre_matlab_ssr][0]
+#print 'Model from '+nombre_archivo_ssr+', [Size: '+str(ssr_model.size)+']. Loaded.'
+
+#ssh_model=sio.loadmat(input_path+nombre_archivo_ssh)[nombre_matlab_ssh][0]
+#print 'Model from '+nombre_archivo_ssh+', [Size: '+str(ssh_model.size)+']. Loaded.'
+
+#ac_model=sio.loadmat(input_path+nombre_archivo_ac)[nombre_matlab_ac][0]
+#print 'Model from '+nombre_archivo_ac+', [Size: '+str(ac_model.size)+']. Loaded.'
+
+
