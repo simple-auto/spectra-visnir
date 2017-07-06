@@ -217,11 +217,11 @@ class Ppal:
 			#TODO Definir el metodo de normalizacion
 
                 #Calcular Transmitancia
-			#TODO reemplazar calculo de absorbancia por transmitancia
+			#TODO (DONE) reemplazar calculo de absorbancia por transmitancia
 		#absorbance=np.log10(self.whi/y)	                #Calcular Absorbancia
 		transmitance=np.true_divide(y/self.whi)		#Calcular Transmitancia
 		
-		
+			
 		#Graficar
 		if True: #Escoger: True = Grafica solo el ultimo espectro, False = Grafica todos juntos
 			#Reiniciar Grafico
@@ -240,7 +240,27 @@ class Ppal:
 		###---PREPROCESOS PLS---###
 		
 		#DOWNSAMPLING
-		#TODO bajar la resolucion a 1 wavelegth, i.e., x=(200,201,202,203,...,1100)
+		#TODO (DONE) bajar la resolucion a 1 wavelegth, i.e., x=(200,201,202,203,...,1100)
+		
+		wv_int=np.asarray(x,dtype=int)
+		values=np.asarray(transmitance)
+		#plt.figure()
+		#plt.plot(wv,values)
+		#plt.show()
+
+		# Down-Samplear considerando el promedio
+		Prom=np.asarray([0])
+		Prom[0]=values[0]
+		j=1
+		for i in range(1,wv_int.size):
+		    if wv_int[i]==wv_int[i-1]:
+			Prom[-1]=np.add(Prom[-1]*j,values[i])/(j+1)
+			j=j+1
+		    else:
+			j=1
+			Prom=np.append(Prom,values[i])
+		wv_int=np.unique(wv_int)
+
 		
 		#Regresion LOESS
 		#TODO implementar funcion LOESS de R
