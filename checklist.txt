@@ -1,0 +1,8 @@
+TO DOs (por hacer):
+
+[listo] - Incluir modelo PLS
+- Normalizar potencia
+- Calcular Transmitancia
+- Downsampling (de 3648px a 901px entre 200[nm] y 1100[nm])
+- Suavizado LOESS
+- Implementar predicción, decisión y despliegue del resultado en la ventana
