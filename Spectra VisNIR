@@ -39,7 +39,7 @@ int_time=	700000  		#Tiempo de integracion [microsegundos]
 promedios=	2			#Cantidad de capturas por medicion
 width=		3			#Ancho del suavizado (Boxcar Smoothing)
 
-#DETECCION DEL ESPECTROMETRO:
+#DETECCION DEL ESPECTROMETRO
 #Se obtiene el listado de dispositivos OceanOptics:
 devices = sb.list_devices() 
 if len(devices)==0:
@@ -54,7 +54,6 @@ else:
 	x=spec.wavelengths()[0:3648]
 	#Fijar el tiempo de integracion en el aparato: 
 	spec.integration_time_micros(int_time)
-
 
 #FILE I/O
 input_path='/home/pi/Desktop/App/'
@@ -125,7 +124,7 @@ class Ppal:
 	
 		self.figura = Figure(figsize=(7.5,5.3))
 		self.grafico = self.figura.add_subplot(111)
-		self.grafico.set_title('Espectro de Intensidad')
+		self.grafico.set_title('Espectro de Transmitancia')
 		self.grafico.set_xlabel('Longitud de Onda ($\lambda$) [nm]')
 		self.grafico.set_ylabel('Intensidad [counts]')
 		self.grafico.axis([400,1100,0,10000])
@@ -197,7 +196,7 @@ class Ppal:
 		print 'Black Spectra Loaded. Size: '+str(self.bla.size)
 		
 	def estimader(self,absor,model,coef):
-		dec=1 #Cantidad de decimales de redondeo
+		dec=5 #Cantidad de decimales de redondeo
 		return round(np.dot(model,absor)+coef, dec)
 		
 	def medir(self): #Usa las variables 'promedios' y 'width' definidas al principio
@@ -219,7 +218,8 @@ class Ppal:
 
                 #Calcular Transmitancia
 			#TODO reemplazar calculo de absorbancia por transmitancia
-		absorbance=np.log10(self.whi/y)	                #Calcular Absorbancia
+		#absorbance=np.log10(self.whi/y)	                #Calcular Absorbancia
+		transmitance=np.true_divide(y/self.whi)		#Calcular Transmitancia
 		
 		
 		#Graficar
@@ -228,17 +228,18 @@ class Ppal:
 			self.grafico.cla()		
 			self.grafico.set_title('Espectro de Intensidad')
 			self.grafico.set_xlabel('Longitud de Onda ($\lambda$) [nm]')
-			self.grafico.set_ylabel('Intensidad [counts]')
+			#self.grafico.set_ylabel('Intensidad [counts]')
+			self.grafico.set_ylabel('Ti [%]')
 			self.grafico.axis([400,1100,0,10000])
 			self.grafico.grid(True)
 
-			#Dibujar Nueva Curva de Absorbancia
-		self.grafico.plot(x,y)
+		#Dibujar Curva
+		self.grafico.plot(x,transmitance)
 		self.telar.draw()
 		
-		#Preprocesos
+		###---PREPROCESOS PLS---###
 		
-		#Downsampling
+		#DOWNSAMPLING
 		#TODO bajar la resolucion a 1 wavelegth, i.e., x=(200,201,202,203,...,1100)
 		
 		#Regresion LOESS
