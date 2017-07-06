@@ -219,7 +219,7 @@ class Ppal:
                 #Calcular Transmitancia
 		
 		#absorbance=np.log10(self.whi/y)	                #Calcular Absorbancia
-		transmitance=np.true_divide(y,self.whi)		#Calcular Transmitancia
+		transmitance=np.true_divide(20*y,self.whi)		#Calcular Transmitancia (OJO ESTA AMPLIFICADA)
 		
 			
 		#Graficar
