@@ -244,6 +244,7 @@ class Ppal:
 				j=1
 				Prom=np.append(Prom,values[i])
 		wv_int=np.unique(wv_int)
+		Prom=Prom*100
 
 		
 		#Regresion LOESS
