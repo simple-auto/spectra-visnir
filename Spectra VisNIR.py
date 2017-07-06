@@ -217,7 +217,7 @@ class Ppal:
 			#TODO Definir el metodo de normalizacion
 
                 #Calcular Transmitancia
-			#TODO (DONE) reemplazar calculo de absorbancia por transmitancia
+		
 		#absorbance=np.log10(self.whi/y)	                #Calcular Absorbancia
 		transmitance=np.true_divide(y/self.whi)		#Calcular Transmitancia
 		
@@ -248,7 +248,7 @@ class Ppal:
 		#plt.plot(wv,values)
 		#plt.show()
 
-		# Down-Samplear considerando el promedio
+		# Down-Samplear considerando el valor promedio
 		Prom=np.asarray([0])
 		Prom[0]=values[0]
 		j=1
