@@ -127,7 +127,7 @@ class Ppal:
 		self.grafico.set_title('Espectro de Transmitancia')
 		self.grafico.set_xlabel('Longitud de Onda ($\lambda$) [nm]')
 		self.grafico.set_ylabel('Intensidad [counts]')
-		self.grafico.axis([400,1100,0,10000])
+		self.grafico.axis([400,1100,0,100])
 		self.grafico.grid(True)
 
 		self.telar = FigureCanvasTkAgg(self.figura, master=frame)
@@ -219,7 +219,7 @@ class Ppal:
                 #Calcular Transmitancia
 		
 		#absorbance=np.log10(self.whi/y)	                #Calcular Absorbancia
-		transmitance=np.true_divide(y/self.whi)		#Calcular Transmitancia
+		transmitance=np.true_divide(y,self.whi)		#Calcular Transmitancia
 		
 			
 		#Graficar
@@ -230,7 +230,7 @@ class Ppal:
 			self.grafico.set_xlabel('Longitud de Onda ($\lambda$) [nm]')
 			#self.grafico.set_ylabel('Intensidad [counts]')
 			self.grafico.set_ylabel('Ti [%]')
-			self.grafico.axis([400,1100,0,10000])
+			self.grafico.axis([400,1100,0,100])
 			self.grafico.grid(True)
 
 		#Dibujar Curva
