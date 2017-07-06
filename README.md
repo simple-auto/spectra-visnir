@@ -2,9 +2,9 @@
 
 Desarrollado por 
 
-Lab. Poscosecha UC:
+# Lab. Poscosecha UC:
 Álvaro Jara
 
-Simple Auto:
+# Simple Auto:
 Vicente Matus
 Jaime Aranda
