@@ -247,11 +247,11 @@ class Ppal:
 		for i in (idle_range):
 			# TODO: se asume que el 'y' tiene cierta estructura y además que los indices de longitud
 			# de onda son los mismo que para el espectro_nominal_negro
-			diff_acum +=  y[i,1] - ref_negro[i,1]
+			diff_acum +=  y[i] - ref_negro[i]
 		diff_neta = diff_acum / len(idle_range)
 
 		for i in range(len(y)): #asumiendo que la estructura de y es vertical
-			y[i,1] -= diff_neta
+			y[i] -= diff_neta
 
 		
 
