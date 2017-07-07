@@ -1,6 +1,7 @@
 TO DOs (por hacer):
 
-[implementado, probar] - Incluir modelo PLS
+[implementado, probar] - Incluir modelo PLS (formato.mat)
+[implementado, probar] - Incluir referencia maxima y minima (espectro blanco y negro estandar) (formato .mat)
 [implementado, probar]- Normalizar potencia
 [implementado, probar] - Calcular Transmitancia
 [implementado, probar] - Downsampling (de 3648px a 901px entre 200[nm] y 1100[nm]) (Hecho)
