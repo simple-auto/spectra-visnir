@@ -66,6 +66,12 @@ nombre_archivo_pls_manzanas='mod_pls_manzanas.mat'
 nombre_matlab_pls_manzanas=(sio.whosmat(input_path+nombre_archivo_pls_manzanas))[0][0]
 pls_manzanas_model=sio.loadmat(input_path+nombre_archivo_pls_manzanas)[nombre_matlab_pls_manzanas][0]
 
+#MEDIDAS NOMINAL EN NEGRO (Modelo espectro en negro)
+#TODO: ponerlo en el inputpath
+nombre_archivo_espectro_negro = 'modelo_nominal_espectro_negro.txt'
+espectro_nominal_negro = np.loadtxt(input_path+nombre_archivo_espectro_negro, float, skiprows=17)
+
+
 #CREACION DE LA VENTANA
 
 #Definimos nuestra ventana principal
@@ -213,10 +219,34 @@ class Ppal:
 		y=self.medir()					#Obtener mediciones
 		self.i=self.i+1				 	#Aumentar contador
 
-                #Normalizar Potencia (Eliminar componente continua)
-			#TODO Definir el metodo de normalizacion
+		# Normalizar Potencia (Eliminar componente continua)
+		#  Existen partes del espectro que por razones físicas no son expuestos ('idle_range'),
+		#  y entonces actúan como si no les llegara nada de luz, independiente de la prueba.
+		#  Por otro lado la temperatura del equipo altera la medición del sensor de una
+		#  manera definida y lineal. Entonces este 'idle_range' nos ayuda a calibrar
+		#  la medida del equipo ante las perturbaciones de temperatura comparando con la
+		# medición en condiciones reales.
 
-                #Calcular Transmitancia
+		# Rangos                ->  Indices (comenzando en 1)
+		#  350.10 hasta 449.88      579  hasta 959
+		#  920.07 hasta 999.89      2824 hasta 3155
+		# TODO: Dependiendo de la medida, podrían tener que calcularse los indices del rango a
+		#       través de programa. Ahora se asume que serán siempre estos.
+
+		idle_range = range(579-1,959) + range(2824-1, 3155)
+		diff_acum = 0
+		for i in (idle_range):
+			# TODO: se asume que el 'y' tiene cierta estructura y además que los indices de longitud
+			# de onda son los mismo que para el espectro_nominal_negro
+			diff_acum +=  y[i,1] - espectro_nominal_negro[i,1]
+		diff_neta = diff_acum / len(idle_range)
+
+		for i in range(len(y)): #asumiendo que la estructura de y es vertical
+			y[i,1] -= diff_neta
+
+		
+
+        #Calcular Transmitancia
 		
 		#absorbance=np.log10(self.whi/y)	                #Calcular Absorbancia
 		transmitance=np.true_divide(100*y,self.whi)		#Calcular Transmitancia (OJO ESTA AMPLIFICADA)
