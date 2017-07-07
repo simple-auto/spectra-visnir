@@ -242,16 +242,23 @@ class Ppal:
 		# TODO: Dependiendo de la medida, podrían tener que calcularse los indices del rango a
 		#       través de programa. Ahora se asume que serán siempre estos.
 
-		idle_range = range(579-1,959) + range(2824-1, 3155)
+		idle_range1 = range(579-1,959) 
+		idle_range2 = range(2824-1, 3155)
 		diff_acum = 0
-		for i in (idle_range):
+		for i in (idle_range1):
 			# TODO: se asume que el 'y' tiene cierta estructura y además que los indices de longitud
 			# de onda son los mismo que para el espectro_nominal_negro
 			diff_acum +=  y[i] - ref_negro[i]
-		diff_neta = diff_acum / len(idle_range)
+		for i in (idle_range2):
+			# TODO: se asume que el 'y' tiene cierta estructura y además que los indices de longitud
+			# de onda son los mismo que para el espectro_nominal_negro
+			diff_acum +=  y[i] - ref_negro[i]
+		diff_neta = diff_acum / (len(idle_range1)+len(idle_range2))
 
 		for i in range(len(y)): #asumiendo que la estructura de y es vertical
 			y[i] -= diff_neta
+		if debug:
+			print diff_neta
 
 		
 
