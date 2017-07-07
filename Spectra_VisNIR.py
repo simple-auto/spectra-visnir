@@ -4,6 +4,8 @@
 #Vis = Visible
 #NIR = Near Infra-Red
 
+debug=False
+
 #-----------Imports
 import os
 print "Spectra Vis/NIR v17.04\n\nIniciando Componentes...\n"
@@ -66,11 +68,17 @@ nombre_archivo_pls_manzanas='mod_pls_manzanas.mat'
 nombre_matlab_pls_manzanas=(sio.whosmat(input_path+nombre_archivo_pls_manzanas))[0][0]
 pls_manzanas_model=sio.loadmat(input_path+nombre_archivo_pls_manzanas)[nombre_matlab_pls_manzanas][0]
 
-#MEDIDAS NOMINAL EN NEGRO (Modelo espectro en negro)
-#TODO: ponerlo en el inputpath
-nombre_archivo_espectro_negro = 'modelo_nominal_espectro_negro.txt'
-espectro_nominal_negro = np.loadtxt(input_path+nombre_archivo_espectro_negro, float, skiprows=17)
+#ESPECTRO NEGRO ESTANDAR
+nombre_archivo_espectro_negro = 'ref_negro_std.mat'
+nombre_matlab_espectro_negro=(sio.whosmat(input_path+nombre_archivo_espectro_negro))[0][0] #"negro"
+ref_negro=sio.loadmat(input_path+nombre_archivo_espectro_negro)[nombre_matlab_espectro_negro][0]
 
+#ref_negro = np.loadtxt(input_path+nombre_archivo_espectro_negro, float, skiprows=17)
+
+#ESPECTRO BLANCO ESTANDAR
+nombre_archivo_espectro_blanco = 'ref_negro_std.mat'
+nombre_matlab_espectro_blanco=(sio.whosmat(input_path+nombre_archivo_espectro_blanco))[0][0] #"negro"
+ref_blanco=sio.loadmat(input_path+nombre_archivo_espectro_blanco)[nombre_matlab_espectro_blanco][0]
 
 #CREACION DE LA VENTANA
 
