@@ -113,7 +113,7 @@ class Ppal:
 		#self.boton_negro.grid(column=0)
 		
 		#self.boton_medir = Button(frame,text="Medir", command=self.button_measure,state=DISABLED,font=("Helvetica",16))
-		self.boton_medir = Button(frame,text="Medir", command=self.button_measure,state=ENABLED,font=("Helvetica",16))
+		self.boton_medir = Button(frame,text="Medir", command=self.button_measure,state=NORMAL,font=("Helvetica",16))
 		#self.bind('m',self.button_measure)		
 		self.boton_medir.grid(column=0)
 		
