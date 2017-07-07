@@ -106,13 +106,14 @@ class Ppal:
 		self.boton_crear_sesion = Button(frame,text="Crear Sesion", command=self.create_new_session)
 		self.boton_crear_sesion.grid(column=0)
 		
-		self.boton_blanco = Button(frame,text="Guardar Ref. Maxima", command=self.getwhite)
-		self.boton_blanco.grid(column=0)
+		#self.boton_blanco = Button(frame,text="Guardar Ref. Maxima", command=self.getwhite)
+		#self.boton_blanco.grid(column=0)
 		
 		#self.boton_negro = Button(frame,text="Capturar Espectro Negro", command=self.getblack)
 		#self.boton_negro.grid(column=0)
 		
-		self.boton_medir = Button(frame,text="Medir", command=self.button_measure,state=DISABLED,font=("Helvetica",16))
+		#self.boton_medir = Button(frame,text="Medir", command=self.button_measure,state=DISABLED,font=("Helvetica",16))
+		self.boton_medir = Button(frame,text="Medir", command=self.button_measure,state=ENABLED,font=("Helvetica",16))
 		#self.bind('m',self.button_measure)		
 		self.boton_medir.grid(column=0)
 		
@@ -246,7 +247,7 @@ class Ppal:
 		for i in (idle_range):
 			# TODO: se asume que el 'y' tiene cierta estructura y además que los indices de longitud
 			# de onda son los mismo que para el espectro_nominal_negro
-			diff_acum +=  y[i,1] - espectro_nominal_negro[i,1]
+			diff_acum +=  y[i,1] - ref_negro[i,1]
 		diff_neta = diff_acum / len(idle_range)
 
 		for i in range(len(y)): #asumiendo que la estructura de y es vertical
@@ -257,7 +258,8 @@ class Ppal:
         #Calcular Transmitancia
 		
 		#absorbance=np.log10(self.whi/y)	                #Calcular Absorbancia
-		transmitance=np.true_divide(100*y,self.whi)		#Calcular Transmitancia (OJO ESTA AMPLIFICADA)
+		#Calcular Transmitancia [%]
+		transmitance=100*np.true_divide(y-ref_negro,ref_blanco-ref_negro)		
 		
 				###---PREPROCESOS PLS---###
 		
