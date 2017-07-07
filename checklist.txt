@@ -1,7 +1,7 @@
 TO DOs (por hacer):
 
 [implementado, probar] - Incluir modelo PLS
-- Normalizar potencia
+[implementado, probar]- Normalizar potencia
 [implementado, probar] - Calcular Transmitancia
 [implementado, probar] - Downsampling (de 3648px a 901px entre 200[nm] y 1100[nm]) (Hecho)
 - Suavizado LOESS
