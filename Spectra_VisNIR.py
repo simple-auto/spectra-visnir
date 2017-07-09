@@ -60,6 +60,13 @@ else:
 	print '\nEspectrometro ' + spec.serial_number + ' Dispositivo Listo'
 	#Guardar valores de longitud de onda (wavelengths) del aparato:
 	x=spec.wavelengths()[0:3648]
+	wv_int=np.asarray(x,dtype=int)
+	wv_int_downsampled=np.unique(wv_int)
+	if debug:
+		print 'Eje x: '
+		print 'Crudo: ' + x
+		print 'Valores enteros: ' + wv_int
+		print 'Downsampleado: ' + wv_int_downsampled
 	#Fijar el tiempo de integracion en el aparato: 
 	spec.integration_time_micros(int_time)
 
@@ -74,19 +81,21 @@ nombre_archivo_pls_manzanas='mod_pls_manzanas.mat'
 nombre_matlab_pls_manzanas=(sio.whosmat(input_path+nombre_archivo_pls_manzanas))[0][0]
 pls_manzanas_model=sio.loadmat(input_path+nombre_archivo_pls_manzanas)[nombre_matlab_pls_manzanas]
 if debug:
-	pls_manzanas_coef
-	nombre_archivo_pls_manzanas
-	nombre_matlab_pls_manzanas
-	pls_manzanas_model
+	print 'Modelo PLS: '
+	print pls_manzanas_coef
+	print nombre_archivo_pls_manzanas
+	print nombre_matlab_pls_manzanas
+	print pls_manzanas_model
 	
 #ESPECTRO NEGRO ESTANDAR
 nombre_archivo_espectro_negro = 'ref_negro_std.mat'
 nombre_matlab_espectro_negro=(sio.whosmat(input_path+nombre_archivo_espectro_negro))[0][0] #"negro"
 ref_negro=sio.loadmat(input_path+nombre_archivo_espectro_negro)[nombre_matlab_espectro_negro]
 if debug:
-	nombre_archivo_espectro_negro
-	nombre_matlab_espectro_negro
-	ref_negro
+	print 'Espectro Negro: '
+	print nombre_archivo_espectro_negro
+	print nombre_matlab_espectro_negro
+	print ref_negro
 
 #ref_negro = np.loadtxt(input_path+nombre_archivo_espectro_negro, float, skiprows=17)
 
@@ -95,9 +104,10 @@ nombre_archivo_espectro_blanco = 'ref_negro_std.mat'
 nombre_matlab_espectro_blanco=(sio.whosmat(input_path+nombre_archivo_espectro_blanco))[0][0] #"negro"
 ref_blanco=sio.loadmat(input_path+nombre_archivo_espectro_blanco)[nombre_matlab_espectro_blanco]
 if debug:
-	nombre_archivo_espectro_blanco
-	nombre_matlab_espectro_blanco
-	ref_blanco
+	print 'Espectro Blanco: '
+	print nombre_archivo_espectro_blanco
+	print nombre_matlab_espectro_blanco
+	print ref_blanco
 
 #CREACION DE LA VENTANA
 
@@ -247,7 +257,7 @@ class Ppal:
 		y=self.medir()					#Obtener mediciones
 		self.i=self.i+1				 	#Aumentar contador
 		if debug:
-			np.savetxt(output_path+self.nombre_sesion+"/espectro_crudo"+str(self.i),y)
+			np.savetxt(output_path+self.nombre_sesion+"/debug/espectro_crudo"+str(self.i),y)
 		# Normalizar Potencia (Eliminar componente continua)
 		#  Existen partes del espectro que por razones físicas no son expuestos ('idle_range'),
 		#  y entonces actúan como si no les llegara nada de luz, independiente de la prueba.
@@ -278,23 +288,24 @@ class Ppal:
 		for i in range(len(y)): #asumiendo que la estructura de y es vertical
 			y[i] -= diff_neta
 		if debug:
-			print diff_neta
+			print 'Diferencia neta:' + diff_neta
 
-		
-
-        #Calcular Transmitancia
+		#Calcular Transmitancia
 		
 		#absorbance=np.log10(self.whi/y)	                #Calcular Absorbancia
 		#Calcular Transmitancia [%]
 		transmitance=100*np.true_divide(y-ref_negro,ref_blanco-ref_negro)		
+		if debug:
+			np.savetxt(output_path+self.nombre_sesion+"/debug/espectro_ti"+str(self.i),transmitance)
 		
-				###---PREPROCESOS PLS---###
+		###---PREPROCESOS PLS---###
 		
 		#DOWNSAMPLING
 		#TODO (DONE) bajar la resolucion a 1 wavelegth, i.e., x=(200,201,202,203,...,1100)
-		
-		wv_int=np.asarray(x,dtype=int)
 		values=np.asarray(transmitance)
+		
+		if debug:
+			np.savetxt(output_path+self.nombre_sesion+"/debug/espectro_values"+str(self.i),values)
 		#plt.figure()
 		#plt.plot(wv,values)
 		#plt.show()
@@ -310,7 +321,6 @@ class Ppal:
 			else:
 				j=1
 				Prom=np.append(Prom,values[i])
-		wv_int=np.unique(wv_int)
 		#Prom=Prom*100
 
 		
@@ -375,11 +385,7 @@ class Ppal:
 		
 		if self.sesion_iniciada==True:
 			#Guardar mediciones	
-			if debug:
-				np.savetxt(output_path+self.nombre_sesion+"/espectro_normalizado"+str(self.i),y)
-				np.savetxt(output_path+self.nombre_sesion+"/espectro_ti"+str(self.i),transmitance)
-				np.savetxt(output_path+self.nombre_sesion+"/espectro_ti_downsampleado"+str(self.i),Prom)
-				
+			np.savetxt(output_path+self.nombre_sesion+"/espectro_ti_downsampleado_"+str(self.i),Prom)
 			
 			#Descomentar linea siguiente para guardar espectro de absorbancia:			
 			#np.savetxt(output_path+self.nombre_sesion+"/absorbancia-"+str(self.i),absorbance)
