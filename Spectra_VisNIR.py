@@ -8,19 +8,15 @@ debug=True
 
 #-----------Imports
 import os
-if debug:
-	print "Spectra Vis/NIR v17.04\n\nIniciando Componentes...\n"
+print "Spectra Vis/NIR\n\nIniciando Componentes...\n"
 from Tkinter import *
 import ttk
-if debug:
-	print "Tkinter Cargado"
+
 import numpy as np 				#Numpy, Libreria para trabajar con numeros n-dimensionales
-if debug:
-	print "Numpy Cargado"
+
 import scipy						#Scipy, funciones para extender Numpy
 import scipy.io as sio				#Scipy Input / Output para leer .mat
-if debug:
-	print "Scipy Cargado"
+
 import matplotlib 				#MatPlotLib, Libreria para hacer graficos
 matplotlib.use("TkAgg") 			#Opcion para empotrar graficos en ventanas
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -28,16 +24,15 @@ from matplotlib import rc			#Sublibreria para mejoras en el texto y tipografias
 from matplotlib import pyplot as plt
 from matplotlib.figure import Figure
 plt.ion()
-if debug:
-	print "Matplotlib Cargado"
+
 #import pylab
 #pylab.ion()
 #print "Pylab Loaded"
 import seabreeze			#Seabreeze, Libreria para manejo de dispositivos OceanOptics
 seabreeze.use('pyseabreeze')		#Opcion para usar Seabreeze bajo libreria PyUSB
 import seabreeze.spectrometers as sb
-if debug:
-	print "pySeabreeze Cargado"
+
+print 'Librerias cargadas'
 #-----------End of Imports
 
 #CONFIGURACION DEL ESPECTROMETRO:
@@ -57,7 +52,7 @@ else:
 	#asumiendo que hay solo un aparato OceanOptics conectado al PC:
 	spec = sb.Spectrometer(devices[0])
 	#Notificacion
-	print '\nEspectrometro ' + spec.serial_number + ' Dispositivo Listo'
+	print 'Espectrometro ' + spec.serial_number + ' Dispositivo Listo'
 	#Guardar valores de longitud de onda (wavelengths) del aparato:
 	x=spec.wavelengths()[0:3648]
 	wv_int=np.asarray(x,dtype=int)
@@ -83,6 +78,7 @@ pls_manzanas_coef=1.57331
 nombre_archivo_pls_manzanas='mod_pls_manzanas.mat'
 nombre_matlab_pls_manzanas=(sio.whosmat(input_path+nombre_archivo_pls_manzanas))[0][0]
 pls_manzanas_model=sio.loadmat(input_path+nombre_archivo_pls_manzanas)[nombre_matlab_pls_manzanas]
+print 'Modelo PLS cargado'
 if debug:
 	print 'Modelo PLS: '
 	print pls_manzanas_coef
@@ -94,6 +90,7 @@ if debug:
 nombre_archivo_espectro_negro = 'ref_negro_std.mat'
 nombre_matlab_espectro_negro=(sio.whosmat(input_path+nombre_archivo_espectro_negro))[0][0] #"negro"
 ref_negro=sio.loadmat(input_path+nombre_archivo_espectro_negro)[nombre_matlab_espectro_negro]
+print 'Espectro de Referencia Minima (Negro) cargado'
 if debug:
 	print 'Espectro Negro: '
 	print nombre_archivo_espectro_negro
@@ -106,12 +103,20 @@ if debug:
 nombre_archivo_espectro_blanco = 'ref_negro_std.mat'
 nombre_matlab_espectro_blanco=(sio.whosmat(input_path+nombre_archivo_espectro_blanco))[0][0] #"negro"
 ref_blanco=sio.loadmat(input_path+nombre_archivo_espectro_blanco)[nombre_matlab_espectro_blanco]
+print 'Espectro de Referencia Maxima (Blanco) cargado'
 if debug:
 	print 'Espectro Blanco: '
 	print nombre_archivo_espectro_blanco
 	print nombre_matlab_espectro_blanco
 	print ref_blanco
 
+	
+#DENOMINADOR PARA CALCULO DE TRANSMITANCIA
+denom_ti=ref_blanco-ref_negro
+if debug:
+	print 'Denominador para calcular Transmitancia:'
+	print denom_ti
+	
 #CREACION DE LA VENTANA
 
 #Definimos nuestra ventana principal
@@ -219,11 +224,10 @@ class Ppal:
 			self.boton_crear_sesion.config(text="Sesion Creada",state=DISABLED)
 			self.entry_nombre_sesion.config(state=DISABLED)
 
-			#Crear archivo de estimaciones y guardar eje x:
-			self.estimaciones_sesion=open(output_path+self.nombre_sesion+"/estimaciones.txt","a")
-			
 			# TODO : Estimaciones PLS Manzanas (Borrar parte kiwis MS, SS, etc..
-			self.estimaciones_sesion.write("no.\tMS\tSSR\tSSH\tAC\n")
+			#Crear archivo de estimaciones y guardar eje x:
+			#self.estimaciones_sesion=open(output_path+self.nombre_sesion+"/estimaciones.txt","a")
+			# self.estimaciones_sesion.write("no.\tMS\tSSR\tSSH\tAC\n")
 			
 			
 			np.savetxt(output_path+self.nombre_sesion+"/wvl_downsampled.txt",wv_downsampled)
@@ -233,7 +237,7 @@ class Ppal:
 			self.desplegar_mensaje("\nSesion Creada. Archivos se guardaran en "+output_path+self.nombre_sesion)
 			self.boton_salir.config(command=self.cerrar_sesion,text="Cerrar Sesion")
 		else:
-			self.desplegar_mensaje("Sesion no creada (Nombre repetido o no valido)")
+			self.desplegar_mensaje("Sesion no creada (Nombre repetido o no valido), intentar con otro nombre de sesion")
 
 	def getwhite(self):
 		self.whi=self.medir()
@@ -299,14 +303,23 @@ class Ppal:
 		if debug:
 			print 'Diferencia neta:'
 			print diff_neta
-		if debug:
 			np.savetxt(output_path+self.nombre_sesion+"/debug/espectro_normalizado"+str(self.i),y)
 
 		#Calcular Transmitancia
 		
 		#absorbance=np.log10(self.whi/y)	                #Calcular Absorbancia
-		#Calcular Transmitancia [%]
-		transmitance=100*np.divide(y-ref_negro,ref_blanco-ref_negro)		
+		#Calcular Transmitancia [%] version division:
+		#transmitance=100*np.divide(y-ref_negro,ref_blanco-ref_negro)	
+		#Calcular Transmitancia [%] version punto a punto, con casos de div. por cero = 100%
+		
+		transmitance=np.zeros(len(y))
+		for i in range(len(transmitance)):
+			if denom_ti[i]=0:
+				transmitance[i]=100 #100%
+			else:
+				transmitance[i]=100*(y[i]-ref_negro[i])/denom_ti[i]
+		
+		
 		if debug:
 			np.savetxt(output_path+self.nombre_sesion+"/debug/espectro_ti"+str(self.i),transmitance)
 		
