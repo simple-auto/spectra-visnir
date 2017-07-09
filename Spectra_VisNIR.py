@@ -229,8 +229,8 @@ class Ppal:
 
 			# TODO : Estimaciones PLS Manzanas (Borrar parte kiwis MS, SS, etc..
 			#Crear archivo de estimaciones y guardar eje x:
-			#self.estimaciones_sesion=open(output_path+self.nombre_sesion+"/estimaciones.txt","a")
-			# self.estimaciones_sesion.write("no.\tMS\tSSR\tSSH\tAC\n")
+			self.estimaciones_sesion=open(output_path+self.nombre_sesion+"/estimaciones.txt","a")
+			self.estimaciones_sesion.write("no.\tPLS\tSigno\tEstado\n")
 			
 			
 			np.savetxt(output_path+self.nombre_sesion+"/wvl_downsampled.txt",wvl_downsampled)
@@ -391,6 +391,10 @@ class Ppal:
 		#Decision
 		#TODO signo del resultado
 		signo_pls=np.sign(pls) #Casos: -1, 0, +1
+		if signo_pls == -1:
+			Estado="Dañado"
+		else:
+			Estado="Sano"
 		if debug:
 			print "Decision: "+str(signo_pls)
 
@@ -409,10 +413,8 @@ class Ppal:
 		#Dibujar curva con color segun decision PLS
 		if signo_pls == -1:
 			self.grafico.plot(wvl_downsampled,Prom,'r')
-			self.grafico.legend('Fruto no.'+str(self.i)+' da\xf1ado')
-		else
+		else:
 			self.grafico.plot(wvl_downsampled,Prom,'g')
-			self.grafico.legend('Fruto no.'+str(self.i)+' sano')
 		self.telar.draw()
 		
 		if self.sesion_iniciada==True:
@@ -425,10 +427,9 @@ class Ppal:
 			
 			#TODO: Incluir estimacion y decision en archivo self.estimaciones_sesion
 			
-			#self.estimaciones_sesion.write(str(self.i)+"\t"+str(ms)+"\t"+str(ssr)+"\t"+str(ssh)+"\t"+str(ac)+"\n")
-			#self.desplegar_mensaje(str(self.i)+')\tMS = '+str(ms)+'\tSSR = '+str(ssr)+'\tSSH = '+str(ssh)+'\tAC = '+str(ac))
+			self.estimaciones_sesion.write(str(self.i)+"\t"+str(pls)+"\t"+str(signo_pls)+"\t"+Estado+"\n")
 
-		self.desplegar_mensaje("Medicion no."+str(self.i)+" realizada")
+		self.desplegar_mensaje("Medicion no."+str(self.i)+" realizada. Resultado PLS="+str(pls)+". Estado="+str(signo_pls)+"("+Estadp+")")
 		#Activar Boton Borrar Ultimo
 		self.boton_borrar_ultimo.config(state=NORMAL)
 
