@@ -100,8 +100,8 @@ if debug:
 #ref_negro = np.loadtxt(input_path+nombre_archivo_espectro_negro, float, skiprows=17)
 
 #ESPECTRO BLANCO ESTANDAR
-nombre_archivo_espectro_blanco = 'ref_negro_std.mat'
-nombre_matlab_espectro_blanco=(sio.whosmat(input_path+nombre_archivo_espectro_blanco))[0][0] #"negro"
+nombre_archivo_espectro_blanco = 'ref_blanco_std.mat'
+nombre_matlab_espectro_blanco=(sio.whosmat(input_path+nombre_archivo_espectro_blanco))[0][0] #"blanco"
 ref_blanco=sio.loadmat(input_path+nombre_archivo_espectro_blanco)[nombre_matlab_espectro_blanco]
 print 'Espectro de Referencia Maxima (Blanco) cargado'
 if debug:
@@ -314,7 +314,7 @@ class Ppal:
 		
 		transmitance=np.zeros(len(y))
 		for i in range(len(transmitance)):
-			if denom_ti[i]=0:
+			if denom_ti[i]==0:
 				transmitance[i]=100 #100%
 			else:
 				transmitance[i]=100*(y[i]-ref_negro[i])/denom_ti[i]
