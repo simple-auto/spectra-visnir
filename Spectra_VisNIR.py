@@ -305,11 +305,11 @@ class Ppal:
 			print diff_neta
 			np.savetxt(output_path+self.nombre_sesion+"/debug/espectro_normalizado"+str(self.i),y)
 
-		#Calcular Transmitancia
 		
 		#absorbance=np.log10(self.whi/y)	                #Calcular Absorbancia
 		#Calcular Transmitancia [%] version division:
 		#transmitance=100*np.divide(y-ref_negro,ref_blanco-ref_negro)	
+		
 		#Calcular Transmitancia [%] version punto a punto, con casos de div. por cero = 100%
 		
 		transmitance=np.zeros(len(y))
@@ -318,8 +318,6 @@ class Ppal:
 				transmitance[i]=100 #100%
 			else:
 				transmitance[i]=100*(y[i]-ref_negro[i])/denom_ti[i]
-		
-		
 		if debug:
 			np.savetxt(output_path+self.nombre_sesion+"/debug/espectro_ti"+str(self.i),transmitance)
 		
@@ -337,15 +335,24 @@ class Ppal:
 
 		# Down-Samplear considerando el valor promedio
 		Prom=np.asarray([0])
-		Prom[0]=values[0]
+		Prom=values[0]
+		if debug:
+			print Prom
 		j=1
 		for i in range(1,wv_int.size):
 			if wv_int[i]==wv_int[i-1]:
 				Prom[-1]=np.add(Prom[-1]*j,values[i])/(j+1)
+				
+				if debug:
+					print wv_int[i]
+					print Prom
 				j=j+1
 			else:
 				j=1
 				Prom=np.append(Prom,values[i])
+				if debug:
+					print wv_int[i]
+					print Prom
 		#Prom=Prom*100
 
 		
