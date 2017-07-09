@@ -380,8 +380,13 @@ class Ppal:
 		#TODO implementar funcion LOESS de R
 		
 		#Aplicar PLS
-		#TODO (producto punto del output de loess por modelo pls)+coef_pls
-		pls=self.estimader(transmitance,pls_manzanas_model,pls_manzanas_coef)
+		
+		#recorte previo de longitudes de onda (considera 200nm a 1100nm)
+		Prom_cut=Prom[6:907]
+		if debug:
+			print len(Prom_cut)
+		
+		pls=self.estimader(Prom_cut,pls_manzanas_model,pls_manzanas_coef)
 		if debug:
 			print "Estimacion PLS:" + str(pls)
 		
