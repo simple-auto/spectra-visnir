@@ -337,14 +337,15 @@ class Ppal:
 		#plt.show()
 
 		# Down-Samplear considerando el valor promedio
-		Prom=np.asarray([0])
+		#Prom=np.asarray([0])
+		Prom=np.zeros(len(wvl_downsampled))
 		Prom[0]=values[0]
 		if debug:
 			print Prom
 		j=1
-		for i in range(1,wvl_int.size):
-			if wvl_int[i]==wvl_int[i-1]:
-				Prom[-1]=np.add(Prom[-1]*j,values[i])/(j+1)
+		for i in range(len(wvl_int)):
+			if wvl_int[i]==wvl_int[i+1]:
+				Prom[i]=np.add(Prom[i]*j,values[i])/(j+1)
 				
 				if debug:
 					print wvl_int[i]
@@ -352,7 +353,7 @@ class Ppal:
 				j=j+1
 			else:
 				j=1
-				Prom=np.append(Prom,values[i])
+				Prom[i]=values[i]
 				if debug:
 					print wvl_int[i]
 					print Prom
