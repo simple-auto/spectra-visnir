@@ -55,16 +55,16 @@ else:
 	print 'Espectrometro ' + spec.serial_number + ' Dispositivo Listo'
 	#Guardar valores de longitud de onda (wavelengths) del aparato:
 	x=spec.wavelengths()[0:3648]
-	wv_int=np.asarray(x,dtype=int)
-	wv_downsampled=np.unique(wv_int)
+	wvl_int=np.asarray(x,dtype=int)
+	wvl_downsampled=np.unique(wvl_int)
 	if debug:
 		print 'Eje x: '
 		print 'Crudo: '
 		print x
 		print 'Valores enteros: '
-		print wv_int
+		print wvl_int
 		print 'Downsampleado: '
-		print wv_downsampled
+		print wvl_downsampled
 	#Fijar el tiempo de integracion en el aparato: 
 	spec.integration_time_micros(int_time)
 
@@ -230,7 +230,7 @@ class Ppal:
 			# self.estimaciones_sesion.write("no.\tMS\tSSR\tSSH\tAC\n")
 			
 			
-			np.savetxt(output_path+self.nombre_sesion+"/wvl_downsampled.txt",wv_downsampled)
+			np.savetxt(output_path+self.nombre_sesion+"/wvl_downsampled.txt",wvl_downsampled)
 
 			#Listo:
 			self.recuadro_mensaje.delete(2.0,END)
@@ -338,23 +338,23 @@ class Ppal:
 
 		# Down-Samplear considerando el valor promedio
 		Prom=np.asarray([0])
-		Prom[0]=values[0][0]
+		Prom[0]=values[0]
 		if debug:
 			print Prom
 		j=1
-		for i in range(1,wv_int.size):
-			if wv_int[i]==wv_int[i-1]:
+		for i in range(1,wvl_int.size):
+			if wvl_int[i]==wvl_int[i-1]:
 				Prom[-1]=np.add(Prom[-1]*j,values[i])/(j+1)
 				
 				if debug:
-					print wv_int[i]
+					print wvl_int[i]
 					print Prom
 				j=j+1
 			else:
 				j=1
 				Prom=np.append(Prom,values[i])
 				if debug:
-					print wv_int[i]
+					print wvl_int[i]
 					print Prom
 		#Prom=Prom*100
 
@@ -364,14 +364,12 @@ class Ppal:
 		
 		#Aplicar PLS
 		#TODO (producto punto del output de loess por modelo pls)+coef_pls
-		
+		#pls=self.estimader(transmitance,pls_manzanas_model,pls_manzanas_coef)
 		
 		#Decision
 		#TODO signo del resultado
-		
-		
-		#Desplegar el mensaje
-		#TODO cambiar label
+		#signo_pls=np.sign(pls) #Casos: -1, 0, +1
+
 			
 		#Graficar
 		if True: #Escoger: True = Grafica solo el ultimo espectro, False = Grafica todos juntos
