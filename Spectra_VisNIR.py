@@ -61,7 +61,7 @@ else:
 	#Guardar valores de longitud de onda (wavelengths) del aparato:
 	x=spec.wavelengths()[0:3648]
 	wv_int=np.asarray(x,dtype=int)
-	wv_int_downsampled=np.unique(wv_int)
+	wv_downsampled=np.unique(wv_int)
 	if debug:
 		print 'Eje x: '
 		print 'Crudo: '
@@ -69,7 +69,7 @@ else:
 		print 'Valores enteros: '
 		print wv_int
 		print 'Downsampleado: '
-		print wv_int_downsampled
+		print wv_downsampled
 	#Fijar el tiempo de integracion en el aparato: 
 	spec.integration_time_micros(int_time)
 
@@ -219,8 +219,12 @@ class Ppal:
 
 			#Crear archivo de estimaciones y guardar eje x:
 			self.estimaciones_sesion=open(output_path+self.nombre_sesion+"/estimaciones.txt","a")
+			
+			# TODO : Estimaciones PLS Manzanas (Borrar parte kiwis MS, SS, etc..
 			self.estimaciones_sesion.write("no.\tMS\tSSR\tSSH\tAC\n")
-			np.savetxt(output_path+self.nombre_sesion+"/wvl.txt",x)
+			
+			
+			np.savetxt(output_path+self.nombre_sesion+"/wvl_downsampled.txt",wv_downsampled)
 
 			#Listo:
 			self.recuadro_mensaje.delete(2.0,END)
@@ -291,7 +295,8 @@ class Ppal:
 		for i in range(len(y)): #asumiendo que la estructura de y es vertical
 			y[i] -= diff_neta
 		if debug:
-			print 'Diferencia neta:' + diff_neta
+			print 'Diferencia neta:'
+			print diff_neta
 
 		#Calcular Transmitancia
 		
