@@ -299,12 +299,14 @@ class Ppal:
 		if debug:
 			print 'Diferencia neta:'
 			print diff_neta
+		if debug:
+			np.savetxt(output_path+self.nombre_sesion+"/debug/espectro_normalizado"+str(self.i),y)
 
 		#Calcular Transmitancia
 		
 		#absorbance=np.log10(self.whi/y)	                #Calcular Absorbancia
 		#Calcular Transmitancia [%]
-		transmitance=100*np.true_divide(y-ref_negro,ref_blanco-ref_negro)		
+		transmitance=100*np.divide(y-ref_negro,ref_blanco-ref_negro)		
 		if debug:
 			np.savetxt(output_path+self.nombre_sesion+"/debug/espectro_ti"+str(self.i),transmitance)
 		
