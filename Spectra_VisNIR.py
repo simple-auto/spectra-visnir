@@ -363,19 +363,19 @@ class Ppal:
 		"""
 		# Down-Samplear considerando el valor promedio
 		# Version 2
- 		Prom=np.zeros(len(wvl_downsampled))
- 		Prom[0]=values[0]
- 		j=1
- 		k=1
- 		for i in range(len(wvl_int)-1):
- 			if wvl_int[i]==wvl_int[i+1]:
- 				Prom[k]=np.add(Prom[k]*j,values[i])/(j+1)
- 				j=j+1
- 			else:
- 				j=1
- 				Prom[k]=values[i]
- 				k=k+1
-		
+		Prom=np.zeros(len(wvl_downsampled))
+		Prom[0]=values[0]
+		j=1
+		k=1
+		for i in range(len(wvl_int)-1):
+			if wvl_int[i]==wvl_int[i+1]:
+				Prom[k]=np.add(Prom[k]*j,values[i])/(j+1)
+				j=j+1
+			else:
+				j=1
+				Prom[k]=values[i]
+				k=k+1
+	
 		#Regresion LOESS
 		#TODO implementar funcion LOESS de R
 		
