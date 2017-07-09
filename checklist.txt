@@ -6,5 +6,4 @@ TO DOs (por hacer):
 [listo] - Calcular Transmitancia
 [implementado, errores] - Downsampling (de 3648px a 901px entre 200[nm] y 1100[nm]) (Hecho)
 - Suavizado LOESS
-[implementado, probar] Implementar predicción, decisión 
-- despliegue del resultado en la ventana
+[listo] Implementar predicción, decisión despliegue del resultado en la ventana
