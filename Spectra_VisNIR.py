@@ -348,15 +348,13 @@ class Ppal:
 				Prom[i]=np.add(Prom[i]*j,values[i])/(j+1)
 				
 				if debug:
-					print wvl_int[i]
-					print Prom
+					print Prom[i]
 				j=j+1
 			else:
 				j=1
 				Prom[i]=values[i]
 				if debug:
-					print wvl_int[i]
-					print Prom
+					print Prom[i]
 		#Prom=Prom*100
 
 		
