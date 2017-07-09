@@ -310,14 +310,17 @@ class Ppal:
 		#Calcular Transmitancia [%] version division:
 		#transmitance=100*np.divide(y-ref_negro,ref_blanco-ref_negro)	
 		
-		#Calcular Transmitancia [%] version punto a punto, con casos de div. por cero = 100%
-		
+		#Calcular Transmitancia [%] version punto a punto
 		transmitance=np.zeros(len(y))
 		for i in range(len(transmitance)):
-			if denom_ti[i]==0:
-				transmitance[i]=100 #100%
-			else:
-				transmitance[i]=100*(y[i]-ref_negro[i])/denom_ti[i]
+			#Evaluar caso a caso si hay division por cero.
+			#Por usar Negro y Blanco estandar no se da ningun caso.
+			#Cambiar a esta forma si se usa blanco y negro medido al inicio de la sesion
+			#if denom_ti[i]==0:
+			#	transmitance[i]=100 #100%
+			#else:
+			#	transmitance[i]=100*(y[i]-ref_negro[i])/denom_ti[i]
+			transmitance[i]=100*(y[i]-ref_negro[i])/denom_ti[i]
 		if debug:
 			np.savetxt(output_path+self.nombre_sesion+"/debug/espectro_ti"+str(self.i),transmitance)
 		
@@ -335,7 +338,7 @@ class Ppal:
 
 		# Down-Samplear considerando el valor promedio
 		Prom=np.asarray([0])
-		Prom=values[0]
+		Prom[0]=values[0][0]
 		if debug:
 			print Prom
 		j=1
