@@ -255,9 +255,9 @@ class Ppal:
 		self.bla=self.medir()
 		print 'Black Spectra Loaded. Size: '+str(self.bla.size)
 		
-	def estimader(self,absor,model,coef):
+	def estimader(self,preprocesado,model,coef):
 		dec=3 #Cantidad de decimales de redondeo
-		return round(np.dot(model,absor)+coef, dec)
+		return round(np.dot(model,preprocesado)+coef, dec)
 		
 	def medir(self): #Usa las variables 'promedios' y 'width' definidas al principio
 		#Tomar 'promedios' mediciones promediadas:
@@ -384,7 +384,7 @@ class Ppal:
 		#recorte previo de longitudes de onda (considera 200nm a 1100nm)
 		Prom_cut=Prom[5:906]
 		
-		pls=self.estimader(Prom_cut,pls_manzanas_model,pls_manzanas_coef)
+		pls=self.estimader(pls_manzanas_model,Prom_cut,pls_manzanas_coef)
 		if debug:
 			print "Estimacion PLS:" + str(pls)
 		
