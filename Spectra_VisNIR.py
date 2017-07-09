@@ -211,6 +211,8 @@ class Ppal:
 		if not os.path.exists(output_path+self.nombre_sesion):
 			#Crear la carpeta:
 			os.mkdir(output_path+self.nombre_sesion)
+			if debug:
+				os.mkdir(output_path+self.nombre_sesion+"/debug")
 
 			#Botones:
 			self.sesion_iniciada=True
