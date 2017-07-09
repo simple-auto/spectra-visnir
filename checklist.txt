@@ -1,9 +1,9 @@
 TO DOs (por hacer):
 
-[implementado, probar] - Incluir modelo PLS (formato.mat)
-[implementado, probar] - Incluir referencia maxima y minima (espectro blanco y negro estandar) (formato .mat)
-[implementado, probar]- Normalizar potencia
-[implementado, probar] - Calcular Transmitancia
-[implementado, probar] - Downsampling (de 3648px a 901px entre 200[nm] y 1100[nm]) (Hecho)
+[listo] - Incluir modelo PLS (formato.mat)
+[listo] - Incluir referencia maxima y minima (espectro blanco y negro estandar) (formato .mat)
+[listo] - Normalizar potencia
+[implementado, errores] - Calcular Transmitancia
+[implementado, errores] - Downsampling (de 3648px a 901px entre 200[nm] y 1100[nm]) (Hecho)
 - Suavizado LOESS
 - Implementar predicción, decisión y despliegue del resultado en la ventana
