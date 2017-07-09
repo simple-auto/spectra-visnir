@@ -201,7 +201,7 @@ class Ppal:
 		self.deslizador_mensaje.grid(row=15,column=2,sticky="nsw")
 
 		self.desplegar_mensaje("Bienvenido")
-		self.desplegar_mensaje("Spectra Vis/NIR v17.04 - Laboratorio de Poscosecha UC")
+		self.desplegar_mensaje("Spectra Vis/NIR v18.0 - Laboratorio de Poscosecha UC")
 
 		self.i=0 #Contador de Mediciones
 		self.w=0 #Contador de Espectros Blancos
@@ -381,11 +381,15 @@ class Ppal:
 		
 		#Aplicar PLS
 		#TODO (producto punto del output de loess por modelo pls)+coef_pls
-		#pls=self.estimader(transmitance,pls_manzanas_model,pls_manzanas_coef)
+		pls=self.estimader(transmitance,pls_manzanas_model,pls_manzanas_coef)
+		if debug:
+			print "Estimacion PLS:" + str(pls)
 		
 		#Decision
 		#TODO signo del resultado
-		#signo_pls=np.sign(pls) #Casos: -1, 0, +1
+		signo_pls=np.sign(pls) #Casos: -1, 0, +1
+		if debug:
+			print "Decision: "+str(signo_pls)
 
 			
 		#Graficar
@@ -403,36 +407,6 @@ class Ppal:
 		self.grafico.plot(wvl_downsampled,Prom)
 		self.telar.draw()
 		
-		#Estimar y mostrar resultados de MS, SSR, SSH & AC (Solo seleccionados)
-
-		#if self.booleano_ms.get()==1:
-			#ms=self.estimader(absorbance,ms_model,ms_coef)
-			#self.check_and_label_ms.config(text="MS: "+str(ms))		
-		#else:
-			#ms=-1
-			#self.check_and_label_ms.config(text="MS off ")		
-
-		#if self.booleano_ssr.get()==1:		
-			#ssr=self.estimader(absorbance,ssr_model,ssr_coef)
-			#self.check_and_label_ssr.config(text="SSR: "+str(ssr))
-		#else:
-			#ssr=-1
-			#self.check_and_label_ssr.config(text="SSR off ")		
-
-		#if self.booleano_ssh.get()==1:
-			#ssh=self.estimader(absorbance,ssh_model,ssh_coef)
-			#self.check_and_label_ssh.config(text="SSH: "+str(ssh))
-		#else:
-			#ssh=-1
-			#self.check_and_label_ssh.config(text="SSH off ")		
-
-		#if self.booleano_ac.get()==1:
-			#ac=self.estimader(absorbance,ac_model,ac_coef)
-			#self.check_and_label_ac.config(text="AC: "+str(ac))		
-		#else:
-			#ac=-1
-			#self.check_and_label_ac.config(text="AC off ")		
-		
 		if self.sesion_iniciada==True:
 			#Guardar mediciones	
 			np.savetxt(output_path+self.nombre_sesion+"/espectro_ti_downsampleado_"+str(self.i),Prom)
@@ -440,7 +414,9 @@ class Ppal:
 			#Descomentar linea siguiente para guardar espectro de absorbancia:			
 			#np.savetxt(output_path+self.nombre_sesion+"/absorbancia-"+str(self.i),absorbance)
 
-			#Guardar estimaciones
+			
+			#TODO: Incluir estimacion y decision en archivo self.estimaciones_sesion
+			
 			#self.estimaciones_sesion.write(str(self.i)+"\t"+str(ms)+"\t"+str(ssr)+"\t"+str(ssh)+"\t"+str(ac)+"\n")
 			#self.desplegar_mensaje(str(self.i)+')\tMS = '+str(ms)+'\tSSR = '+str(ssr)+'\tSSH = '+str(ssh)+'\tAC = '+str(ac))
 
