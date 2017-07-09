@@ -382,9 +382,10 @@ class Ppal:
 		#Aplicar PLS
 		
 		#recorte previo de longitudes de onda (considera 200nm a 1100nm)
-		Prom_cut=Prom[5:906]
+		#Prom_cut=Prom[5:906]
+		#pls=self.estimader(pls_manzanas_model,Prom_cut,pls_manzanas_coef)
 		
-		pls=self.estimader(pls_manzanas_model,Prom_cut,pls_manzanas_coef)
+		pls=self.estimader(pls_manzanas_model,Prom[5:906],pls_manzanas_coef)
 		if debug:
 			print "Estimacion PLS:" + str(pls)
 		
@@ -477,6 +478,8 @@ class Ppal:
 #EJECUTAR VENTANA:
 #######################
 
+if debug:
+	print "Generando GUI"
 root = Tk()
 root.title("Spectra Vis/NIR 17.04 - Poscosecha UC")
 app = Ppal(root)
