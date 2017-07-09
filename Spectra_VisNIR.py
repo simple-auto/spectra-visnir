@@ -4,19 +4,23 @@
 #Vis = Visible
 #NIR = Near Infra-Red
 
-debug=False
+debug=True
 
 #-----------Imports
 import os
-print "Spectra Vis/NIR v17.04\n\nIniciando Componentes...\n"
+if debug:
+	print "Spectra Vis/NIR v17.04\n\nIniciando Componentes...\n"
 from Tkinter import *
 import ttk
-print "Tkinter Cargado"
+if debug:
+	print "Tkinter Cargado"
 import numpy as np 				#Numpy, Libreria para trabajar con numeros n-dimensionales
-print "Numpy Cargado"
+if debug:
+	print "Numpy Cargado"
 import scipy						#Scipy, funciones para extender Numpy
 import scipy.io as sio				#Scipy Input / Output para leer .mat
-print "Scipy Cargado"
+if debug:
+	print "Scipy Cargado"
 import matplotlib 				#MatPlotLib, Libreria para hacer graficos
 matplotlib.use("TkAgg") 			#Opcion para empotrar graficos en ventanas
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -24,14 +28,16 @@ from matplotlib import rc			#Sublibreria para mejoras en el texto y tipografias
 from matplotlib import pyplot as plt
 from matplotlib.figure import Figure
 plt.ion()
-print "Matplotlib Cargado"
+if debug:
+	print "Matplotlib Cargado"
 #import pylab
 #pylab.ion()
 #print "Pylab Loaded"
 import seabreeze			#Seabreeze, Libreria para manejo de dispositivos OceanOptics
 seabreeze.use('pyseabreeze')		#Opcion para usar Seabreeze bajo libreria PyUSB
 import seabreeze.spectrometers as sb
-print "pySeabreeze Cargado"
+if debug:
+	print "pySeabreeze Cargado"
 #-----------End of Imports
 
 #CONFIGURACION DEL ESPECTROMETRO:
@@ -67,11 +73,20 @@ pls_manzanas_coef=1.57331
 nombre_archivo_pls_manzanas='mod_pls_manzanas.mat'
 nombre_matlab_pls_manzanas=(sio.whosmat(input_path+nombre_archivo_pls_manzanas))[0][0]
 pls_manzanas_model=sio.loadmat(input_path+nombre_archivo_pls_manzanas)[nombre_matlab_pls_manzanas]
-
+if debug:
+	pls_manzanas_coef
+	nombre_archivo_pls_manzanas
+	nombre_matlab_pls_manzanas
+	pls_manzanas_model
+	
 #ESPECTRO NEGRO ESTANDAR
 nombre_archivo_espectro_negro = 'ref_negro_std.mat'
 nombre_matlab_espectro_negro=(sio.whosmat(input_path+nombre_archivo_espectro_negro))[0][0] #"negro"
 ref_negro=sio.loadmat(input_path+nombre_archivo_espectro_negro)[nombre_matlab_espectro_negro]
+if debug:
+	nombre_archivo_espectro_negro
+	nombre_matlab_espectro_negro
+	ref_negro
 
 #ref_negro = np.loadtxt(input_path+nombre_archivo_espectro_negro, float, skiprows=17)
 
@@ -79,8 +94,10 @@ ref_negro=sio.loadmat(input_path+nombre_archivo_espectro_negro)[nombre_matlab_es
 nombre_archivo_espectro_blanco = 'ref_negro_std.mat'
 nombre_matlab_espectro_blanco=(sio.whosmat(input_path+nombre_archivo_espectro_blanco))[0][0] #"negro"
 ref_blanco=sio.loadmat(input_path+nombre_archivo_espectro_blanco)[nombre_matlab_espectro_blanco]
-
-
+if debug:
+	nombre_archivo_espectro_blanco
+	nombre_matlab_espectro_blanco
+	ref_blanco
 
 #CREACION DE LA VENTANA
 
@@ -229,7 +246,8 @@ class Ppal:
 	def button_measure(self):
 		y=self.medir()					#Obtener mediciones
 		self.i=self.i+1				 	#Aumentar contador
-
+		if debug:
+			np.savetxt(output_path+self.nombre_sesion+"/espectro_crudo"+str(self.i),y)
 		# Normalizar Potencia (Eliminar componente continua)
 		#  Existen partes del espectro que por razones físicas no son expuestos ('idle_range'),
 		#  y entonces actúan como si no les llegara nada de luz, independiente de la prueba.
@@ -293,7 +311,7 @@ class Ppal:
 				j=1
 				Prom=np.append(Prom,values[i])
 		wv_int=np.unique(wv_int)
-		Prom=Prom*100
+		#Prom=Prom*100
 
 		
 		#Regresion LOESS
@@ -357,7 +375,11 @@ class Ppal:
 		
 		if self.sesion_iniciada==True:
 			#Guardar mediciones	
-			np.savetxt(output_path+self.nombre_sesion+"/espectro_"+str(self.i),y)
+			if debug:
+				np.savetxt(output_path+self.nombre_sesion+"/espectro_normalizado"+str(self.i),y)
+				np.savetxt(output_path+self.nombre_sesion+"/espectro_ti"+str(self.i),transmitance)
+				np.savetxt(output_path+self.nombre_sesion+"/espectro_ti_downsampleado"+str(self.i),Prom)
+				
 			
 			#Descomentar linea siguiente para guardar espectro de absorbancia:			
 			#np.savetxt(output_path+self.nombre_sesion+"/absorbancia-"+str(self.i),absorbance)
