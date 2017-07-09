@@ -109,8 +109,11 @@ if debug:
 	print nombre_archivo_espectro_blanco
 	print nombre_matlab_espectro_blanco
 	print ref_blanco
-
 	
+#RANGOS PARA NORMALIZACION
+idle_range1 = range(579-1,959)
+idle_range2 = range(2824-1, 3155)
+
 #DENOMINADOR PARA CALCULO DE TRANSMITANCIA
 denom_ti=ref_blanco-ref_negro
 if debug:
@@ -285,8 +288,8 @@ class Ppal:
 		# TODO: Dependiendo de la medida, podrían tener que calcularse los indices del rango a
 		#       través de programa. Ahora se asume que serán siempre estos.
 
-		idle_range1 = range(579-1,959) 
-		idle_range2 = range(2824-1, 3155)
+		#idle_range1 = range(579-1,959)   #definido afuera para mayor eficiencia de codigo
+		#idle_range2 = range(2824-1, 3155)#definido afuera para mayor eficiencia de codigo
 		diff_acum = 0
 		for i in (idle_range1):
 			# TODO: se asume que el 'y' tiene cierta estructura y además que los indices de longitud
@@ -337,6 +340,8 @@ class Ppal:
 		#plt.show()
 
 		# Down-Samplear considerando el valor promedio
+		"""
+		#Version 1
 		#Prom=np.asarray([0])
 		Prom=np.zeros(len(wvl_downsampled))
 		Prom[0]=values[0]
@@ -355,8 +360,21 @@ class Ppal:
 				Prom[i]=values[i]
 				if debug:
 					print Prom[i]
-		#Prom=Prom*100
-
+		"""
+		# Down-Samplear considerando el valor promedio
+		# Version 2
+ 		Prom=np.zeros(len(wvl_downsampled))
+ 		Prom[0]=values[0]
+ 		j=1
+ 		k=1
+ 		for i in range(len(wvl_int)-1):
+ 			if wvl_int[i]==wvl_int[i+1]:
+ 				Prom[k]=np.add(Prom[k]*j,values[i])/(j+1)
+ 				j=j+1
+ 			else:
+ 				j=1
+ 				Prom[k]=values[i]
+ 				k=k+1
 		
 		#Regresion LOESS
 		#TODO implementar funcion LOESS de R
@@ -382,7 +400,7 @@ class Ppal:
 			self.grafico.grid(True)
 
 		#Dibujar Curva
-		self.grafico.plot(x,transmitance)
+		self.grafico.plot(wvl_downsampled,Prom)
 		self.telar.draw()
 		
 		#Estimar y mostrar resultados de MS, SSR, SSH & AC (Solo seleccionados)
