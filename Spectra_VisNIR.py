@@ -64,9 +64,12 @@ else:
 	wv_int_downsampled=np.unique(wv_int)
 	if debug:
 		print 'Eje x: '
-		print 'Crudo: ' + x
-		print 'Valores enteros: ' + wv_int
-		print 'Downsampleado: ' + wv_int_downsampled
+		print 'Crudo: '
+		print x
+		print 'Valores enteros: '
+		print wv_int
+		print 'Downsampleado: '
+		print wv_int_downsampled
 	#Fijar el tiempo de integracion en el aparato: 
 	spec.integration_time_micros(int_time)
 
