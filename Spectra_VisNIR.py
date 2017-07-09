@@ -397,7 +397,7 @@ class Ppal:
 			
 		#Graficar
 		if True: #Escoger: True = Grafica solo el ultimo espectro, False = Grafica todos juntos
-			#Reiniciar Grafico
+		#Reiniciar Grafico
 			self.grafico.cla()		
 			self.grafico.set_title('Espectro de Intensidad')
 			self.grafico.set_xlabel('Longitud de Onda ($\lambda$) [nm]')
@@ -405,9 +405,14 @@ class Ppal:
 			self.grafico.set_ylabel('Transmitancia [%]')
 			self.grafico.axis([400,1100,0,100])
 			self.grafico.grid(True)
-
-		#Dibujar Curva
-		self.grafico.plot(wvl_downsampled,Prom)
+		
+		#Dibujar curva con color segun decision PLS
+		if signo_pls == -1:
+			self.grafico.plot(wvl_downsampled,Prom,'r')
+			self.grafico.legend('Fruto no.'+str(self.i)+' da\xf1ado')
+		else
+			self.grafico.plot(wvl_downsampled,Prom,'g')
+			self.grafico.legend('Fruto no.'+str(self.i)+' sano')
 		self.telar.draw()
 		
 		if self.sesion_iniciada==True:
