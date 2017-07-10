@@ -1,0 +1,10 @@
+Sesion Creada. Archivos se guardaran en /home/pi/Desktop/spectra-visnir/Resultados/_carpeta
+Medicion no.1 realizada. Resultado PLS=0.543. Estado=1(Sano)
+Medicion no.2 realizada. Resultado PLS=0.818. Estado=1(Sano)
+Medicion no.3 realizada. Resultado PLS=3.501. Estado=1(Sano)
+Medicion no.4 realizada. Resultado PLS=3.059. Estado=1(Sano)
+Medicion no.5 realizada. Resultado PLS=3.261. Estado=1(Sano)
+Medicion no.6 realizada. Resultado PLS=4.147. Estado=1(Sano)
+Medicion no.7 realizada. Resultado PLS=0.961. Estado=1(Sano)
+Sesion Finalizada
+
