@@ -34,8 +34,9 @@ import seabreeze.spectrometers as sb
 
 #para implementación de LOESS
 # import numpy as np
-import scipy.sparse
-from scipy.optimize import fmin_l_bfgs_b
+# import scipy.sparse
+#  from scipy.optimize import fmin_l_bfgs_b
+from statsmodels.nonparametric.smoothers_lowess import lowess
 
 print 'Librerias cargadas'
 #-----------End of Imports
@@ -401,11 +402,13 @@ class Ppal:
 				k=k+1
 	
 		#Regresion LOESS
-		cls = LOESS(1)
-		cls.fit(X,y);         #definir bien X e y
-		X = np.column_stack((np.ones(100), np.linspace(-5, 13, 100))) #definir bien el vector de salida
-        y = cls.predict(X)
-		
+		# cls = LOESS(1)
+		# cls.fit(X,y);         #definir bien X e y
+		# X = np.column_stack((np.ones(100), np.linspace(-5, 13, 100))) #definir bien el vector de salida
+        # y = cls.predict(X)
+		filtered = lowess('valores (eje y)', 'espacio (eje x)', is_sorted=True, frac=0.025, it=0)
+
+
 		#Aplicar PLS
 		
 		#recorte previo de longitudes de onda (considera 200nm a 1100nm)
