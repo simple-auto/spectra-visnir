@@ -4,7 +4,7 @@
 #Vis = Visible
 #NIR = Near Infra-Red
 
-debug=True
+debug=False
 
 #-----------Imports
 import os
@@ -34,9 +34,9 @@ import seabreeze.spectrometers as sb
 
 #para implementación de LOESS
 # import numpy as np
-import scipy.sparse
-from scipy.optimize import fmin_l_bfgs_b
-from statsmodels.nonparametric.smoothers_lowess import lowess
+##import scipy.sparse
+##from scipy.optimize import fmin_l_bfgs_b
+##from statsmodels.nonparametric.smoothers_lowess import lowess
 
 #PiFace, control de iluminador I/O
 import pifacedigitalio 				
@@ -437,7 +437,7 @@ class Ppal:
 		"""
 		
 		#Smoothing Boxcar
-		filtro=np.asarray([1, 2, 3, 2, 1])
+		filtro=np.ones(21)
 		filtro=filtro/np.sum(filtro)
 		if debug:
 			print "Filtro: " + str(filtro)
@@ -457,7 +457,7 @@ class Ppal:
 		#TODO signo del resultado
 		signo_pls=int(np.sign(pls)) #Casos: -1, 0, +1
 		if signo_pls == -1:
-			Estado="Dañado"
+			Estado="Danado"
 		else:
 			Estado="Sano"
 		if debug:
