@@ -406,7 +406,7 @@ class Ppal:
 		# cls.fit(X,y);         #definir bien X e y
 		# X = np.column_stack((np.ones(100), np.linspace(-5, 13, 100))) #definir bien el vector de salida
         # y = cls.predict(X)
-		filtered = lowess('valores (eje y)', 'espacio (eje x)', is_sorted=True, frac=0.025, it=0)
+		Prom = lowess(Prom, wvl_downsampled, is_sorted=True, frac=0.025, it=0)
 
 
 		#Aplicar PLS
