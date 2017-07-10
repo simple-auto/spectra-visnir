@@ -38,6 +38,10 @@ import scipy.sparse
 from scipy.optimize import fmin_l_bfgs_b
 from statsmodels.nonparametric.smoothers_lowess import lowess
 
+#PiFace, control de iluminador I/O
+import pifacedigitalio 				
+pfd = pifacedigitalio.PiFaceDigital(0)
+
 print 'Librerias cargadas'
 #-----------End of Imports
 
@@ -176,6 +180,16 @@ class Ppal:
 		
 		#self.boton_negro = Button(frame,text="Capturar Espectro Negro", command=self.getblack)
 		#self.boton_negro.grid(column=0)
+
+		
+		self.flip_flop_lampara = Button(frame,text="Iluminador ON", command=self.toggle_lamp)
+		self.flip_flop_lampara.grid(column=0)
+		
+		#self.encender = Button(frame,text="Iluminador ON", command=self.encender)
+		#self.encender.grid(column=0)
+		
+		#self.apagar = Button(frame,text="Iluminador OFF", command=self.apagar)
+		#self.apagar.grid(column=0)
 		
 		#self.boton_medir = Button(frame,text="Medir", command=self.button_measure,state=DISABLED,font=("Helvetica",16))
 		self.boton_medir = Button(frame,text="Medir", command=self.button_measure,state=NORMAL,font=("Helvetica",16))
@@ -232,6 +246,22 @@ class Ppal:
 		self.w=0 #Contador de Espectros Blancos
 
 	#FUNCIONES PARA LOS BOTONES:
+	
+	"""
+	def encender(self):
+		pfd.output_pins[0].value=1
+		
+	def apagar(self):
+		pfd.output_pins[0].value=0
+	"""
+	
+	def toggle_lamp(self):
+		if(pfd.output_pins[0].value==1):
+			pfd.output_pins[0].value=0
+			self.flip_flop_lampara.config(command=self.toggle_lamp,text="Iluminador ON")
+		else:
+			pfd.output_pins[0].value=1
+			self.flip_flop_lampara.config(command=self.toggle_lamp,text="Iluminador OFF")
 
 	def desplegar_mensaje(self,texto_mensaje):
 		self.recuadro_mensaje.insert(END,texto_mensaje+"\n")
@@ -406,13 +436,20 @@ class Ppal:
 		y = cls.predict(X)
 		"""
 		
+		#Smoothing Boxcar
+		filtro=np.asarray([1, 2, 3, 2, 1])
+		filtro=filtro/np.sum(filtro)
+		if debug:
+			print "Filtro: " + str(filtro)
+		smooth_ti=np.convolve(Prom, filtro, mode='same')
+		
 		#Aplicar PLS
 		
 		#recorte previo de longitudes de onda (considera 200nm a 1100nm)
 		#Prom_cut=Prom[5:906]
 		#pls=self.estimader(pls_manzanas_model,Prom_cut,pls_manzanas_coef)
 		
-		pls=self.estimader(pls_manzanas_model,Prom[5:906],pls_manzanas_coef)
+		pls=self.estimader(pls_manzanas_model,smooth_ti[5:906],pls_manzanas_coef)
 		if debug:
 			print "Estimacion PLS:" + str(pls)
 		
@@ -443,19 +480,19 @@ class Ppal:
 		#Dibujar curva con color segun decision PLS
 
 		if signo_pls == -1:
-			self.grafico.plot(wvl_downsampled,Prom,'r')
+			self.grafico.plot(wvl_downsampled,smooth_ti,'r')
 		else:
-			self.grafico.plot(wvl_downsampled,Prom,'g')
+			self.grafico.plot(wvl_downsampled,smooth_ti,'g')
 
 		self.telar.draw()
 		
 		if self.sesion_iniciada==True:
 			#Guardar mediciones	
 			np.savetxt(output_path+self.nombre_sesion+"/espectro_ti_downsampleado_"+str(self.i),Prom)
+			np.savetxt(output_path+self.nombre_sesion+"/espectro_ti_downsampleado_suavizado_"+str(self.i),smooth_ti)
 			
 			#Descomentar linea siguiente para guardar espectro de absorbancia:			
 			#np.savetxt(output_path+self.nombre_sesion+"/absorbancia-"+str(self.i),absorbance)
-
 			
 			#TODO: Incluir estimacion y decision en archivo self.estimaciones_sesion
 			
