@@ -36,6 +36,7 @@ import seabreeze.spectrometers as sb
 # import numpy as np
 import scipy.sparse
 from scipy.optimize import fmin_l_bfgs_b
+from statsmodels.nonparametric.smoothers_lowess import lowess
 
 print 'Librerias cargadas'
 #-----------End of Imports
