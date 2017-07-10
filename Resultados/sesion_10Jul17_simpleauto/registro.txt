@@ -1,0 +1,29 @@
+Sesion Creada. Archivos se guardaran en /home/pi/Desktop/Resultados/sesion_10Jul17_simpleauto
+Medicion no.1 realizada. Resultado PLS=-3.422. Estado=-1(Danado)
+Medicion no.2 realizada. Resultado PLS=-3.496. Estado=-1(Danado)
+Medicion no.3 realizada. Resultado PLS=-3.488. Estado=-1(Danado)
+Cambio de fruto
+Manzana matus
+
+Medicion no.4 realizada. Resultado PLS=-3.121. Estado=-1(Danado)
+Medicion no.5 realizada. Resultado PLS=-2.261. Estado=-1(Danado)
+Medicion no.6 realizada. Resultado PLS=-2.87. Estado=-1(Danado)
+cambio de fruto
+Medicion no.7 realizada. Resultado PLS=-4.017. Estado=-1(Danado)
+Medicion no.8 realizada. Resultado PLS=-3.953. Estado=-1(Danado)
+Medicion no.9 realizada. Resultado PLS=-3.603. Estado=-1(Danado)
+cambio de fruto
+Medicion no.10 realizada. Resultado PLS=-3.606. Estado=-1(Danado)
+Medicion no.11 realizada. Resultado PLS=-4.048. Estado=-1(Danado)
+Medicion no.12 realizada. Resultado PLS=-3.864. Estado=-1(Danado)
+Medicion no.13 realizada. Resultado PLS=-3.757. Estado=-1(Danado)
+Medicion mala a proposito para generar fruto sano
+Medicion no.14 realizada. Resultado PLS=-2.113. Estado=-1(Danado)
+Medicion no.15 realizada. Resultado PLS=-2.117. Estado=-1(Danado)
+Medicion no.16 realizada. Resultado PLS=-3.344. Estado=-1(Danado)
+Medicion no.17 realizada. Resultado PLS=-1.955. Estado=-1(Danado)
+Medicion no.18 realizada. Resultado PLS=8.776. Estado=1(Sano)
+Medicion no.19 realizada. Resultado PLS=1666.056. Estado=1(Sano)
+Medicion no.20 realizada. Resultado PLS=1541.005. Estado=1(Sano)
+Sesion Finalizada
+
