@@ -32,6 +32,11 @@ import seabreeze			#Seabreeze, Libreria para manejo de dispositivos OceanOptics
 seabreeze.use('pyseabreeze')		#Opcion para usar Seabreeze bajo libreria PyUSB
 import seabreeze.spectrometers as sb
 
+#para implementación de LOESS
+# import numpy as np
+import scipy.sparse
+from scipy.optimize import fmin_l_bfgs_b
+
 print 'Librerias cargadas'
 #-----------End of Imports
 
@@ -119,6 +124,25 @@ denom_ti=ref_blanco-ref_negro
 if debug:
 	print 'Denominador para calcular Transmitancia:'
 	print denom_ti
+
+#IMPLEMENTACION LOESS
+class LOESS:
+    def __init__(self, bandwidth):
+        self.bandwidth = bandwidth
+
+    def fit(self, X, y):
+        self.X = X
+        self.y = y
+
+    def predict(self, X_te):
+        X_tr, y_tr = self.X, self.y
+        y_te = []
+        for x in X_te:
+            ws = np.exp(-np.sum((X_tr - x)**2, axis=1) / (2 * self.bandwidth**2))
+            W = scipy.sparse.dia_matrix((ws, 0), shape=(X_tr.shape[0],) * 2)
+            theta = np.linalg.pinv(X_tr.T.dot(W.dot(X_tr))).dot(X_tr.T.dot(W.dot(y_tr)))
+            y_te.append(x.dot(theta))
+        return np.array(y_te)
 	
 #CREACION DE LA VENTANA
 
@@ -377,7 +401,10 @@ class Ppal:
 				k=k+1
 	
 		#Regresion LOESS
-		#TODO implementar funcion LOESS de R
+		cls = LOESS(1)
+		cls.fit(X,y);         #definir bien X e y
+		X = np.column_stack((np.ones(100), np.linspace(-5, 13, 100))) #definir bien el vector de salida
+        y = cls.predict(X)
 		
 		#Aplicar PLS
 		
